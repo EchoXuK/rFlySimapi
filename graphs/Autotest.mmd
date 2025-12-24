@@ -1,0 +1,83 @@
+graph TB
+  subgraph RflySimSDK
+    phm["phm/"]
+    AutoMAVDB["AutoMAVDB/"]
+    AutoMAVCmd["AutoMAVCmd/"]
+    AutoMAVCtrl["AutoMAVCtrl/"]
+    PX4MavCtrlV4["PX4MavCtrlV4/"]
+    CameraCtrlApi["CameraCtrlApi/"]
+    VisionCaptureApi["VisionCaptureApi/"]
+  end
+
+  subgraph src
+    autotest["autotest/"]
+    openSHA["openSHA/"]
+  end
+
+  subgraph src/model
+    subgraph Quadrotor
+      Q_TC["TestCase_1 … TestCase_n/"]
+    end
+    subgraph Fixedwing
+      F_TC["TestCase_1 … TestCase_n/"]
+    end
+  end
+
+  subgraph data
+    subgraph SITL
+      subgraph single
+        SITL_sI["sInstance/"]
+        SITL_mI["mInstance/"]
+      end
+      subgraph multi
+        SITL_sI2["sInstance/"]
+        SITL_mI2["mInstance/"]
+      end
+    end
+    subgraph HITL
+      subgraph single
+        HITL_sI["sInstance/"]
+        HITL_mI["mInstance/"]
+      end
+      subgraph multi
+        HITL_sI2["sInstance/"]
+        HITL_mI2["mInstance/"]
+      end
+    end
+  end
+
+  case["case/"]
+  tools["tools/"]
+  docs["docs/"]
+
+  RflySimSDK --> phm
+  RflySimSDK --> AutoMAVDB
+  RflySimSDK --> AutoMAVCmd
+  RflySimSDK --> AutoMAVCtrl
+  RflySimSDK --> PX4MavCtrlV4
+  RflySimSDK --> CameraCtrlApi
+  RflySimSDK --> VisionCaptureApi
+
+  src --> autotest
+  src --> openSHA
+
+  src --> src/model
+  src/model --> Quadrotor
+  src/model --> Fixedwing
+
+  data --> SITL
+  data --> HITL
+
+  data --> data
+
+  data --> SITL
+  data --> HITL
+
+  root["根目录"]
+  root --> RflySimSDK
+  root --> src
+  root --> src/model
+  root --> data
+  root --> case
+  root --> tools
+  root --> docs
